@@ -15,6 +15,7 @@ import (
 
 type Greetings struct {
 	Hostname string
+	Message  string
 }
 
 func _GetHostname() string {
@@ -37,6 +38,11 @@ func _GetServerPort() int {
 	return 9000
 }
 
+func _GetMessage() string {
+	msg := os.Getenv("MESSAGE")
+	return msg
+}
+
 func _HandleRequests(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "" || r.URL.Path == "/" {
 		_SayHello(w, r)
@@ -49,6 +55,7 @@ func _SayHello(w http.ResponseWriter, r *http.Request) {
 	tpl := template.Must(template.ParseFiles("helloworld.html"))
 	data := Greetings{
 		Hostname: _GetHostname(),
+		Message:  _GetMessage(),
 	}
 	tpl.Execute(w, data)
 }

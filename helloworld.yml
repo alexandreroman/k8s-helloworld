@@ -21,6 +21,9 @@ spec:
         image: alexandreroman/helloworld
         ports:
         - containerPort: 9000
+        env:
+        - name: MESSAGE
+          value: "Bonjour le monde !"
 ---
 apiVersion: v1
 kind: Service
