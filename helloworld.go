@@ -57,10 +57,13 @@ func _SayHello(w http.ResponseWriter, r *http.Request) {
 		Hostname: _GetHostname(),
 		Message:  _GetMessage(),
 	}
+	log.Printf("Sending page to client")
 	tpl.Execute(w, data)
 }
 
 func main() {
+	log.Printf("Process PID: %d", os.Getpid())
+
 	port := _GetServerPort()
 	log.Printf("Listening on port: %d", port)
 
