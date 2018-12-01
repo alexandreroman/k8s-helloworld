@@ -4,18 +4,31 @@ kind: Namespace
 metadata:
   name: helloworld
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: helloworld
   namespace: helloworld
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+      app: helloworld
   template:
     metadata:
       labels:
         app: helloworld
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - helloworld
+            topologyKey: kubernetes.io/hostname
       containers:
       - name: helloworld
         image: alexandreroman/helloworld
